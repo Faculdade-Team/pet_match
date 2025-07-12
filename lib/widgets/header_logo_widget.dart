@@ -8,7 +8,7 @@ class HeaderLogoWidget extends StatelessWidget {
     return Container(
       width: double.maxFinite,
       padding: const EdgeInsets.symmetric(vertical: 40),
-      color: Colors.green,
+      color: Colors.green.shade800,
       child: Column(
         children: [
           Image.asset('lib/assets/pet-match_logo.png', height: 100),

@@ -1,26 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:pet_match/database/db_helper.dart';
 import '../widgets/header_logo_widget.dart';
 import 'package:go_router/go_router.dart';
 
-void main() {
-  runApp(const PetMatchApp());
-}
-
-class PetMatchApp extends StatelessWidget {
-  const PetMatchApp({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'PetMatch',
-      debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
-    );
-  }
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class _LoginScreenState extends State<LoginScreen> {
+  Future<void> onLogin(String email, String password) async {
+    final db = await DBHelper.getInstance();
+    final result = await db.query(
+      'users',
+      where: 'email = ? AND password = ?',
+      whereArgs: [email, password],
+    );
+
+    if (result.isEmpty) {
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text('Erro'),
+              content: Text('E-mail ou senha incorretos'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+      );
+      return;
+    }
+
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: Text('Sucesso'),
+            content: Text('Login realizado com sucesso!'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  context.go('/home');
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +114,7 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () {
-                            context.go('/signup');
+                            onLogin('marcus.lara@hotmail.com', '97332096a');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,

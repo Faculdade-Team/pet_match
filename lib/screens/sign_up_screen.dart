@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pet_match/database/db_helper.dart';
 import 'package:pet_match/widgets/header_logo_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -30,15 +31,78 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  void onSubmit() {
-    // Implementar lógica de cadastro
-    // Exemplo: enviar dados para o servidor ou validar campos
-    print('Nome: ${_nameController.text}');
-    print('E-mail: ${_emailController.text}');
-    print('Senha: ${_passwordController.text}');
+  Future<void> onSubmit() async {
+    if (_nameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _passwordController.text.isEmpty) {
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text('Atenção'),
+              content: Text('Por favor, preencha todos os campos'),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+      );
+      return;
+    }
 
-    // Após o cadastro, redirecionar para a tela de login
-    context.go('/');
+    final email = _emailController.text.trim();
+    final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}\$');
+    if (!emailRegex.hasMatch(email)) {
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text('Atenção'),
+              content: Text('Digite um e-mail válido.'),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+      );
+      return;
+    }
+
+    final db = await DBHelper.getInstance();
+    final existing = await db.query(
+      'users',
+      where: 'email = ?',
+      whereArgs: [_emailController.text],
+    );
+    if (existing.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text('Erro'),
+              content: Text('E-mail já cadastrado!'),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+      );
+      return;
+    }
+
+    await db.insert('users', {
+      'name': _nameController.text,
+      'email': _emailController.text,
+      'password': _passwordController.text,
+    });
+
+    if (mounted) context.go('/');
   }
 
   @override
