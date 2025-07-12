@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pet_match/routes/app_routes.dart';
+import 'package:provider/provider.dart';
+import 'package:pet_match/providers/user_provider.dart';
 
 void main() {
-  runApp(const PetMatchApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => UserProvider(),
+      child: const PetMatchApp(),
+    ),
+  );
 }
 
 class PetMatchApp extends StatelessWidget {

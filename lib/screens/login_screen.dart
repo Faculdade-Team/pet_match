@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pet_match/database/db_helper.dart';
+import 'package:pet_match/model/user_dao.dart';
 import '../widgets/header_logo_widget.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import '../providers/user_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,15 +13,31 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  bool _obscurePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   Future<void> onLogin(String email, String password) async {
-    final db = await DBHelper.getInstance();
-    final result = await db.query(
-      'users',
-      where: 'email = ? AND password = ?',
-      whereArgs: [email, password],
+    final user = await UserDAO.buscarPorEmailSenha(
+      email.trim(),
+      password.trim(),
     );
 
-    if (result.isEmpty) {
+    if (user == null) {
       showDialog(
         context: context,
         builder:
@@ -36,6 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       return;
     }
+
+    Provider.of<UserProvider>(context, listen: false).setUser(user);
 
     showDialog(
       context: context,
@@ -88,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 24),
                         TextField(
+                          controller: _emailController,
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.email),
                             hintText: 'Digite seu e-mail',
@@ -100,7 +121,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 16),
                         TextField(
-                          obscureText: true,
+                          controller: _passwordController,
+                          obscureText: _obscurePassword,
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.lock),
                             hintText: 'Digite sua senha',
@@ -109,12 +131,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Radius.circular(30),
                               ),
                             ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
                           ),
                         ),
                         SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () {
-                            onLogin('marcus.lara@hotmail.com', '97332096a');
+                            onLogin(
+                              _emailController.text,
+                              _passwordController.text,
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,

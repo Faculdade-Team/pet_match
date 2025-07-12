@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pet_match/database/db_helper.dart';
+import 'package:pet_match/model/user.dart';
+import 'package:pet_match/model/user_dao.dart';
 import 'package:pet_match/widgets/header_logo_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -53,7 +55,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     final email = _emailController.text.trim();
-    final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}\$');
+    print(email);
+    final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$');
     if (!emailRegex.hasMatch(email)) {
       showDialog(
         context: context,
@@ -96,11 +99,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
-    await db.insert('users', {
-      'name': _nameController.text,
-      'email': _emailController.text,
-      'password': _passwordController.text,
-    });
+    User user = User(
+      id: null,
+      name: _nameController.text,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+
+    await UserDAO.inserir(user);
 
     if (mounted) context.go('/');
   }
