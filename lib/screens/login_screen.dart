@@ -107,7 +107,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         SizedBox(height: 24),
-                        TextField(
+                        TextFormField(
+                          keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.email),

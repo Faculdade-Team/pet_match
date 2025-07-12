@@ -155,8 +155,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           controller: _nameController,
                         ),
                         SizedBox(height: 16),
-                        TextField(
-                          obscureText: true,
+                        TextFormField(
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.email),
                             hintText: 'Digite sua e-mail',
