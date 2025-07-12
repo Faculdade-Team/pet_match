@@ -199,6 +199,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           onPressed: () => onSubmit(),
                         ),
+                        SizedBox(height: 50),
+                        ElevatedButton(
+                          onPressed: () {
+                            context.go('/');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey.shade200,
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(30),
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            'Voltar',
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                          ),
+                        ),
                       ],
                     ),
                   ),
