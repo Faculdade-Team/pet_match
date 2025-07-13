@@ -2,6 +2,16 @@ import 'package:pet_match/database/db_helper.dart';
 import 'package:pet_match/model/adoption.dart';
 
 class AdoptionDAO {
+  static Future<int> countAdoptionsByUser(int userId) async {
+    var db = await DBHelper.getInstance();
+    final result = await db.query(
+      'adoptions',
+      where: 'userId = ?',
+      whereArgs: [userId],
+    );
+    return result.length;
+  }
+
   static Future<List<Adoption>> getAdoptions() async {
     var db = await DBHelper.getInstance();
     final result = await db.query('adoptions');

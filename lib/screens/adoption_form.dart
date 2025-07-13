@@ -69,9 +69,28 @@ class _AdoptionFormState extends State<AdoptionForm> {
       return;
     }
 
+    final count = await AdoptionDAO.countAdoptionsByUser(userId!);
+    if (count >= 3) {
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text('Limite atingido'),
+              content: Text('Você só pode cadastrar até 3 pets para adoção.'),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+      );
+      return;
+    }
+
     Adoption adoption = Adoption(
       id: null,
-      userId: userId!,
+      userId: userId,
       name: _nameController.text,
       healthStatus: _healthStatusController.text,
       breed: _breedController.text,
@@ -167,52 +186,7 @@ class _AdoptionFormState extends State<AdoptionForm> {
                       ),
                       controller: _sizeController,
                     ),
-                    SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child:
-                              _imageFile != null
-                                  ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(16),
-                                    child: Image.file(
-                                      _imageFile!,
-                                      height: 120,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
-                                  : Container(
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade200,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        'Selecione uma imagem do pet',
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
-                                    ),
-                                  ),
-                        ),
-                        SizedBox(width: 12),
-                        IconButton(
-                          icon: Icon(Icons.add, size: 32),
-                          tooltip: 'Selecionar imagem',
-                          onPressed: () async {
-                            final picker = ImagePicker();
-                            final pickedFile = await picker.pickImage(
-                              source: ImageSource.gallery,
-                            );
-                            if (pickedFile != null) {
-                              setState(() {
-                                _imageFile = File(pickedFile.path);
-                              });
-                            }
-                          },
-                        ),
-                      ],
-                    ),
+
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
@@ -245,7 +219,6 @@ class _AdoptionFormState extends State<AdoptionForm> {
           } else if (index == 1) {
             context.go('/adoption');
           } else if (index == 2) {
-            // userProvider.logout();
             context.go('/profile');
           } else if (index == 3) {
             context.go('/');
