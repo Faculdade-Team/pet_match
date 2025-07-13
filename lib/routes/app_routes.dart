@@ -3,6 +3,7 @@ import 'package:pet_match/screens/adoption_form.dart';
 import 'package:pet_match/screens/adoption_screen.dart';
 import 'package:pet_match/screens/home_screen.dart';
 import 'package:pet_match/screens/login_screen.dart';
+import 'package:pet_match/screens/profile_screen.dart';
 import 'package:pet_match/screens/sign_up_screen.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -18,6 +19,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/adoption/form',
       builder: (context, state) => const AdoptionForm(),
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const ProfileScreen(),
     ),
   ],
 );

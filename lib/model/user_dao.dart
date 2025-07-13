@@ -18,7 +18,12 @@ class UserDAO {
 
   static Future<void> atualizar(User user) async {
     var db = await DBHelper.getInstance();
-    await db.update('users', user.toMap());
+    await db.update(
+      'users',
+      user.toMap(),
+      where: 'id = ?',
+      whereArgs: [user.id],
+    );
   }
 
   static Future<void> deletar(User user) async {

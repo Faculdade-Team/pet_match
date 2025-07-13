@@ -91,182 +91,152 @@ class _AdoptionFormState extends State<AdoptionForm> {
     final user = userProvider.user;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SizedBox.expand(
-          child: SingleChildScrollView(
-            child: Container(
-              constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const HeaderLogoWidget(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 24,
-                      horizontal: 16,
+      body: Column(
+        children: [
+          const HeaderLogoWidget(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 16,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Adicionar para Adoção',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                    SizedBox(height: 24),
+                    TextField(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(FontAwesomeIcons.paw),
+                        hintText: 'Nome do pet',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                        ),
+                      ),
+                      controller: _nameController,
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(FontAwesomeIcons.heart),
+                        hintText: 'Estado de Saúde',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                        ),
+                      ),
+                      controller: _healthStatusController,
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(FontAwesomeIcons.dog),
+                        hintText: 'Raça do Pet',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                        ),
+                      ),
+                      controller: _breedController,
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(FontAwesomeIcons.calendar),
+                        hintText: 'Idade',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                        ),
+                      ),
+                      controller: _ageController,
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(FontAwesomeIcons.rulerVertical),
+                        hintText: 'Porte',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                        ),
+                      ),
+                      controller: _sizeController,
+                    ),
+                    SizedBox(height: 16),
+                    Row(
                       children: [
-                        Text(
-                          'Adicionar para Adoção',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 24),
-                        TextField(
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(FontAwesomeIcons.paw),
-                            hintText: 'Nome do pet',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30),
-                              ),
-                            ),
-                          ),
-                          controller: _nameController,
-                        ),
-                        SizedBox(height: 16),
-                        TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(FontAwesomeIcons.heart),
-                            hintText: 'Estado de Saúde',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30),
-                              ),
-                            ),
-                          ),
-                          controller: _healthStatusController,
-                        ),
-                        SizedBox(height: 16),
-                        TextField(
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(FontAwesomeIcons.dog),
-                            hintText: 'Raça do Pet',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30),
-                              ),
-                            ),
-                          ),
-                          controller: _breedController,
-                        ),
-
-                        SizedBox(height: 16),
-                        TextField(
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(FontAwesomeIcons.calendar),
-                            hintText: 'Idade',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30),
-                              ),
-                            ),
-                          ),
-                          controller: _ageController,
-                        ),
-
-                        SizedBox(height: 16),
-                        TextField(
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(FontAwesomeIcons.rulerVertical),
-                            hintText: 'Porte',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30),
-                              ),
-                            ),
-                          ),
-                          controller: _sizeController,
-                        ),
-
-                        SizedBox(height: 16),
-
-                        Row(
-                          children: [
-                            Expanded(
-                              child:
-                                  _imageFile != null
-                                      ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(16),
-                                        child: Image.file(
-                                          _imageFile!,
-                                          height: 120,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      )
-                                      : Container(
-                                        height: 120,
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey.shade200,
-                                          borderRadius: BorderRadius.circular(
-                                            16,
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            'Selecione uma imagem do pet',
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
+                        Expanded(
+                          child:
+                              _imageFile != null
+                                  ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.file(
+                                      _imageFile!,
+                                      height: 120,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                  : Container(
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Selecione uma imagem do pet',
+                                        style: TextStyle(color: Colors.grey),
                                       ),
-                            ),
-                            SizedBox(width: 12),
-                            IconButton(
-                              icon: Icon(Icons.add, size: 32),
-                              tooltip: 'Selecionar imagem',
-                              onPressed: () async {
-                                final picker = ImagePicker();
-                                final pickedFile = await picker.pickImage(
-                                  source: ImageSource.gallery,
-                                );
-                                if (pickedFile != null) {
-                                  setState(() {
-                                    _imageFile = File(pickedFile.path);
-                                  });
-                                }
-                              },
-                            ),
-                          ],
+                                    ),
+                                  ),
                         ),
-                        SizedBox(height: 50),
-                        ElevatedButton(
-                          onPressed: () {
-                            onSubmit(user?.id);
+                        SizedBox(width: 12),
+                        IconButton(
+                          icon: Icon(Icons.add, size: 32),
+                          tooltip: 'Selecionar imagem',
+                          onPressed: () async {
+                            final picker = ImagePicker();
+                            final pickedFile = await picker.pickImage(
+                              source: ImageSource.gallery,
+                            );
+                            if (pickedFile != null) {
+                              setState(() {
+                                _imageFile = File(pickedFile.path);
+                              });
+                            }
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30),
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            'Adicionar para Adoção',
-                            style: TextStyle(fontSize: 16, color: Colors.white),
-                          ),
                         ),
-                        SizedBox(height: 50),
                       ],
                     ),
-                  ),
-                ],
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        onSubmit(user?.id);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                        ),
+                      ),
+                      child: Text(
+                        'Adicionar para Adoção',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
-
       bottomNavigationBar: PetMatchBottomNavBar(
         currentIndex: 0,
         onTap: (index) {
