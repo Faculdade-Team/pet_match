@@ -44,6 +44,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
     if (user == null) return;
+
+    final allUsers = await UserDAO.carregarUsuarios();
+    final emailExists = allUsers.any(
+      (u) => u.email == _emailController.text && u.id != user.id,
+    );
+    if (emailExists) {
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text('E-mail já cadastrado'),
+              content: Text('Já existe outro usuário com esse e-mail.'),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+      );
+      return;
+    }
+
+    final cellphoneExists = allUsers.any(
+      (u) => u.cellphone == _cellphoneController.text && u.id != user.id,
+    );
+    if (cellphoneExists) {
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text('Celular já cadastrado'),
+              content: Text(
+                'Já existe outro usuário com esse número de celular.',
+              ),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+      );
+      return;
+    }
+
     final updatedUser = User(
       id: user.id,
       name: _nameController.text,
