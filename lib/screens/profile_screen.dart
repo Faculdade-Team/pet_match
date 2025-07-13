@@ -44,6 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _saveProfile() async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
+    _obscurePassword = true;
     if (user == null) return;
 
     final allUsers = await UserDAO.carregarUsuarios();
@@ -253,6 +254,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 _emailController.text = user.email;
                                 _cellphoneController.text = user.cellphone;
                                 _passwordController.text = user.password;
+                                _obscurePassword = true;
                                 _editing = false;
                               });
                             } else {
