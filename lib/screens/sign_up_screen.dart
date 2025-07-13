@@ -4,6 +4,7 @@ import 'package:pet_match/database/db_helper.dart';
 import 'package:pet_match/model/user.dart';
 import 'package:pet_match/model/user_dao.dart';
 import 'package:pet_match/widgets/header_logo_widget.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -13,9 +14,14 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _phoneMask = MaskTextInputFormatter(
+    mask: '(##) #####-####',
+    filter: {"#": RegExp(r'[0-9]')},
+  );
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  late TextEditingController _cellphoneController;
   bool _obscurePassword = true;
 
   @override
@@ -24,6 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _cellphoneController = TextEditingController();
   }
 
   @override
@@ -31,6 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _cellphoneController.dispose();
     super.dispose();
   }
 
@@ -56,7 +64,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     final email = _emailController.text.trim();
-    print(email);
     final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$');
     if (!emailRegex.hasMatch(email)) {
       showDialog(
@@ -105,6 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       name: _nameController.text,
       email: _emailController.text,
       password: _passwordController.text,
+      cellphone: _cellphoneController.text,
     );
 
     await UserDAO.inserir(user);
@@ -168,6 +176,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           controller: _emailController,
+                        ),
+                        SizedBox(height: 16),
+                        TextField(
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.phone),
+                            hintText: 'Digite seu celular',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(30),
+                              ),
+                            ),
+                          ),
+                          controller: _cellphoneController,
+                          keyboardType: TextInputType.phone,
+                          inputFormatters: [_phoneMask],
                         ),
                         SizedBox(height: 16),
                         TextField(

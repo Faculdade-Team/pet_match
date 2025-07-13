@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pet_match/widgets/header_logo_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -51,10 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Adoção',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.cat, color: Colors.white),
-            label: 'SOS',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.user, color: Colors.white),
             label: 'Perfil',
           ),
@@ -66,6 +63,15 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: 0,
         onTap: (index) {
           // Adicione a navegação aqui se necessário
+          if (index == 0) {
+            context.go('/adoption');
+          } else if (index == 1) {
+            // Navegação para Perfil
+          } else if (index == 2) {
+            // Lógica de logout
+            // userProvider.logout();
+            context.go('/');
+          }
         },
       ),
     );

@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:pet_match/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 import 'package:pet_match/providers/user_provider.dart';
+import 'package:pet_match/providers/adoption_provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => UserProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => AdoptionProvider()),
+      ],
       child: const PetMatchApp(),
     ),
   );

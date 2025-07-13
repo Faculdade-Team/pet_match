@@ -5,11 +5,13 @@ class User {
   final String name;
   final String email;
   final String password;
+  final String cellphone;
 
   User({
     required this.id,
     required this.name,
     required this.email,
+    required this.cellphone,
     required this.password,
   });
 
@@ -18,6 +20,7 @@ class User {
       'id': id,
       'name': name,
       'email': email,
+      'cellphone': cellphone,
       'password': password,
     };
   }
@@ -27,6 +30,7 @@ class User {
       id: map['id'] != null ? map['id'] as int : null,
       name: map['name'],
       email: map['email'],
+      cellphone: map['cellphone'],
       password: map['password'],
     );
   }

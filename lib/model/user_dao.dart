@@ -2,6 +2,15 @@ import 'package:pet_match/database/db_helper.dart';
 import 'package:pet_match/model/user.dart';
 
 class UserDAO {
+  static Future<User?> buscarPorId(int id) async {
+    var db = await DBHelper.getInstance();
+    final result = await db.query('users', where: 'id = ?', whereArgs: [id]);
+    if (result.isNotEmpty) {
+      return User.fromMap(result.first as Map<String, dynamic>);
+    }
+    return null;
+  }
+
   static Future<int> inserir(User user) async {
     var db = await DBHelper.getInstance();
     return await db.insert('users', user.toMap());
@@ -27,8 +36,6 @@ class UserDAO {
     String email,
     String password,
   ) async {
-    print('Searching for user with email: $email');
-    print('Searching for user with password: $password');
     var db = await DBHelper.getInstance();
     final result = await db.query(
       'users',
