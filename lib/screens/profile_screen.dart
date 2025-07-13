@@ -20,6 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late TextEditingController _emailController;
   late TextEditingController _cellphoneController;
   late TextEditingController _passwordController;
+  bool _obscurePassword = true;
 
   @override
   void initState() {
@@ -180,12 +181,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     TextField(
                       controller: _passwordController,
                       enabled: _editing,
-                      obscureText: true,
+                      obscureText: _obscurePassword,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.lock),
                         hintText: 'Digite sua senha',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
                         ),
                       ),
                     ),
