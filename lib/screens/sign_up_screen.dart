@@ -22,6 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _cellphoneController;
+
   bool _obscurePassword = true;
 
   @override
@@ -84,6 +85,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     final db = await DBHelper.getInstance();
+
+    final phone = _cellphoneController.text.trim();
+    final existingPhone = await db.query(
+      'users',
+      where: 'cellphone = ?',
+      whereArgs: [phone],
+    );
+    if (existingPhone.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text('Erro'),
+              content: Text('Celular já cadastrado!'),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+      );
+      return;
+    }
+
     final existing = await db.query(
       'users',
       where: 'email = ?',
