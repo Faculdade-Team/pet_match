@@ -20,6 +20,10 @@ class PetMatchBottomNavBar extends StatelessWidget {
       unselectedItemColor: Colors.white,
       items: const [
         BottomNavigationBarItem(
+          icon: Icon(FontAwesomeIcons.house, color: Colors.white),
+          label: 'Início',
+        ),
+        BottomNavigationBarItem(
           icon: Icon(FontAwesomeIcons.dog, color: Colors.white),
           label: 'Adoção',
         ),

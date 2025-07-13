@@ -261,10 +261,13 @@ class _AdoptionScreenState extends State<AdoptionScreen> {
         currentIndex: 0,
         onTap: (index) {
           if (index == 0) {
-            context.go('/adoption');
+            context.go('/home');
           } else if (index == 1) {
-            // Navegação para Perfil
+            context.go('/adoption');
           } else if (index == 2) {
+            // userProvider.logout();
+            context.go('/profile');
+          } else if (index == 3) {
             context.go('/');
           }
         },
