@@ -211,7 +211,7 @@ class _AdoptionFormState extends State<AdoptionForm> {
         ],
       ),
       bottomNavigationBar: PetMatchBottomNavBar(
-        currentIndex: 0,
+        currentIndex: 1,
         onTap: (index) {
           if (index == 0) {
             context.go('/home');

@@ -258,14 +258,13 @@ class _AdoptionScreenState extends State<AdoptionScreen> {
         ],
       ),
       bottomNavigationBar: PetMatchBottomNavBar(
-        currentIndex: 0,
+        currentIndex: 1,
         onTap: (index) {
           if (index == 0) {
             context.go('/home');
           } else if (index == 1) {
             context.go('/adoption');
           } else if (index == 2) {
-            // userProvider.logout();
             context.go('/profile');
           } else if (index == 3) {
             context.go('/');

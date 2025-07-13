@@ -16,23 +16,27 @@ class PetMatchBottomNavBar extends StatelessWidget {
     return BottomNavigationBar(
       backgroundColor: Colors.green.shade800,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.white,
+      selectedItemColor: const Color.fromARGB(255, 114, 203, 245),
       unselectedItemColor: Colors.white,
-      items: const [
+      selectedIconTheme: IconThemeData(
+        color: const Color.fromARGB(255, 118, 207, 235),
+      ),
+      unselectedIconTheme: IconThemeData(color: Colors.white),
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.house, color: Colors.white),
+          icon: Icon(FontAwesomeIcons.house),
           label: 'Início',
         ),
         BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.dog, color: Colors.white),
+          icon: Icon(FontAwesomeIcons.dog),
           label: 'Adoção',
         ),
         BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.user, color: Colors.white),
+          icon: Icon(FontAwesomeIcons.user),
           label: 'Perfil',
         ),
         BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.rightFromBracket, color: Colors.white),
+          icon: Icon(FontAwesomeIcons.rightFromBracket),
           label: 'Sair',
         ),
       ],

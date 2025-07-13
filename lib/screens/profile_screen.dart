@@ -256,7 +256,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
       bottomNavigationBar: PetMatchBottomNavBar(
-        currentIndex: 0,
+        currentIndex: 2,
         onTap: (index) {
           if (index == 0) {
             context.go('/home');
