@@ -16,6 +16,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  bool _obscurePassword = true;
 
   @override
   void initState() {
@@ -170,7 +171,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SizedBox(height: 16),
                         TextField(
-                          obscureText: true,
+                          obscureText: _obscurePassword,
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.lock),
                             hintText: 'Digite sua senha',
@@ -179,7 +180,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 Radius.circular(30),
                               ),
                             ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
                           ),
+
                           controller: _passwordController,
                         ),
                         SizedBox(height: 50),
