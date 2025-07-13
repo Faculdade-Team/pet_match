@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pet_match/providers/user_provider.dart';
 import 'package:pet_match/widgets/header_logo_widget.dart';
+import 'package:pet_match/widgets/pet_match_bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import '../providers/adoption_provider.dart';
 import '../model/user_dao.dart';
@@ -17,10 +19,16 @@ class AdoptionScreen extends StatefulWidget {
 class _AdoptionScreenState extends State<AdoptionScreen> {
   Map<int, User> _user = {};
 
-  Future<void> _loadUsers(int userId) async {
-    final user = await UserDAO.buscarPorId(userId);
+  Future<void> _loadUsers(List<int> userIds) async {
+    Map<int, User> userMap = {};
+    for (final id in userIds.toSet()) {
+      final user = await UserDAO.buscarPorId(id);
+      if (user != null) {
+        userMap[user.id!] = user;
+      }
+    }
     setState(() {
-      _user = {if (user != null) user.id!: user};
+      _user = userMap;
     });
   }
 
@@ -37,12 +45,14 @@ class _AdoptionScreenState extends State<AdoptionScreen> {
         context,
         listen: false,
       ).setAdoptions(adoptions);
-      await _loadUsers(adoptions.map((a) => a.userId).toList().first);
+      await _loadUsers(adoptions.map((a) => a.userId).toList());
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    final loggedUser = userProvider.user;
     final adoptionProvider = Provider.of<AdoptionProvider>(context);
     final adoptions = adoptionProvider.adoptions;
 
@@ -132,12 +142,35 @@ class _AdoptionScreenState extends State<AdoptionScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          adoption.name,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                          ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              adoption.name,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                            if (loggedUser != null &&
+                                                adoption.userId ==
+                                                    loggedUser.id)
+                                              IconButton(
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ),
+                                                tooltip: 'Excluir adoção',
+                                                onPressed: () async {
+                                                  await adoptionProvider
+                                                      .deleteAdoption(
+                                                        adoption.id!,
+                                                      );
+                                                  setState(() {});
+                                                },
+                                              ),
+                                          ],
                                         ),
                                         SizedBox(height: 6),
                                         Row(
@@ -223,6 +256,18 @@ class _AdoptionScreenState extends State<AdoptionScreen> {
                     ),
           ),
         ],
+      ),
+      bottomNavigationBar: PetMatchBottomNavBar(
+        currentIndex: 0,
+        onTap: (index) {
+          if (index == 0) {
+            context.go('/adoption');
+          } else if (index == 1) {
+            // Navegação para Perfil
+          } else if (index == 2) {
+            context.go('/');
+          }
+        },
       ),
     );
   }

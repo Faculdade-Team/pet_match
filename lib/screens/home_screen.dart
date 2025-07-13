@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pet_match/widgets/header_logo_widget.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../widgets/pet_match_bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
 
@@ -41,34 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 32),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.green.shade800,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.dog, color: Colors.white),
-            label: 'Adoção',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.user, color: Colors.white),
-            label: 'Perfil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.rightFromBracket, color: Colors.white),
-            label: 'Sair',
-          ),
-        ],
+      bottomNavigationBar: PetMatchBottomNavBar(
         currentIndex: 0,
         onTap: (index) {
-          // Adicione a navegação aqui se necessário
           if (index == 0) {
             context.go('/adoption');
           } else if (index == 1) {
             // Navegação para Perfil
           } else if (index == 2) {
-            // Lógica de logout
             // userProvider.logout();
             context.go('/');
           }

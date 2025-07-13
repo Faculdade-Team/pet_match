@@ -3,6 +3,12 @@ import '../model/adoption.dart';
 import '../model/adoption_dao.dart';
 
 class AdoptionProvider extends ChangeNotifier {
+  Future<void> deleteAdoption(int id) async {
+    await AdoptionDAO.deletar(id);
+    _adoptions.removeWhere((a) => a.id == id);
+    notifyListeners();
+  }
+
   List<Adoption> get adoptions => _adoptions;
 
   void setAdoptions(List<Adoption> adoptions) {

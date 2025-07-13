@@ -8,6 +8,7 @@ import 'package:pet_match/model/adoption.dart';
 import 'package:pet_match/model/adoption_dao.dart';
 import 'package:pet_match/providers/user_provider.dart';
 import 'package:pet_match/widgets/header_logo_widget.dart';
+import 'package:pet_match/widgets/pet_match_bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 
 class AdoptionForm extends StatefulWidget {
@@ -256,25 +257,6 @@ class _AdoptionFormState extends State<AdoptionForm> {
                           ),
                         ),
                         SizedBox(height: 50),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            context.go('/adoption');
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey.shade200,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30),
-                              ),
-                            ),
-                          ),
-                          icon: Icon(Icons.arrow_back, color: Colors.black),
-                          label: Text(
-                            'Voltar',
-                            style: TextStyle(fontSize: 16, color: Colors.black),
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -283,6 +265,19 @@ class _AdoptionFormState extends State<AdoptionForm> {
             ),
           ),
         ),
+      ),
+
+      bottomNavigationBar: PetMatchBottomNavBar(
+        currentIndex: 0,
+        onTap: (index) {
+          if (index == 0) {
+            context.go('/adoption');
+          } else if (index == 1) {
+            // Navegação para Perfil
+          } else if (index == 2) {
+            context.go('/');
+          }
+        },
       ),
     );
   }
