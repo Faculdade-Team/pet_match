@@ -229,9 +229,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: const EdgeInsets.only(top: 16.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            setState(() {
-                              _editing = false;
-                            });
+                            final user =
+                                Provider.of<UserProvider>(
+                                  context,
+                                  listen: false,
+                                ).user;
+                            if (user != null) {
+                              setState(() {
+                                _nameController.text = user.name;
+                                _emailController.text = user.email;
+                                _cellphoneController.text = user.cellphone;
+                                _passwordController.text = user.password;
+                                _editing = false;
+                              });
+                            } else {
+                              setState(() {
+                                _editing = false;
+                              });
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.grey.shade200,
